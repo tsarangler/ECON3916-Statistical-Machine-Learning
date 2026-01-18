@@ -7,7 +7,7 @@
 
 ## 👋 About Me
 
-I'm an undergraduate economics student passionate about leveraging data science to solve real-world economic problems. I'm actively seeking opportunities in **Data Analysis**, **Economic Consulting**, and **Finance**, where I can apply both rigorous economic thinking and cutting-edge analytical techniques.
+I'm an undergraduate economics student passionate about leveraging data science to solve real-world economic problems. I'm actively seeking opportunities in **Economic Consulting** and **Finance**, where I can apply both rigorous economic thinking and cutting-edge analytical techniques.
 
 My goal is to bridge the gap between traditional economic theory and modern data science—combining the **why** of causal inference with the **what** of predictive analytics.
 
@@ -68,8 +68,8 @@ Each project demonstrates my ability to work with real economic datasets, interp
 
 I'm always eager to discuss economics, data science, and opportunities to apply these skills in industry.
 
-- **LinkedIn:** [Your LinkedIn]
-- **Email:** [Your Email]
+- **LinkedIn:** https://www.linkedin.com/in/anthony-el-hage/
+- **Email:** elhage.an@northeastern.edu
 
 ---
 
