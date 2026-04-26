@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Anthony El-Hage — Data Scientist & Economist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #181818;
+    --border: #242424;
+    --text: #e8e6e1;
+    --muted: #7a7672;
+    --accent: #c8a96e;
+    --accent2: #7eb8a4;
+    --red: #c0392b;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 4rem;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,169,110,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.1s;
+  }
+
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.2s;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2.6rem);
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.3s;
+  }
+
+  .hero-bio {
+    max-width: 560px;
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.4s;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.5s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0a;
+  }
+
+  .btn-primary:hover {
+    background: #d4b87a;
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .hero-stats {
+    position: absolute;
+    right: 4rem;
+    bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.6s;
+  }
+
+  .stat {
+    text-align: right;
+  }
+
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--accent);
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 7rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.1;
+    margin-bottom: 3.5rem;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1.5px solid var(--border);
+  }
+
+  .project-card {
+    background: var(--bg);
+    padding: 2.5rem;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--accent);
+    transition: height 0.3s ease;
+  }
+
+  .project-card:hover { background: var(--bg2); }
+  .project-card:hover::before { height: 100%; }
+
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.2rem;
+  }
+
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .project-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-result {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0.8rem;
+    background: rgba(126,184,164,0.07);
+    border-left: 2px solid var(--accent2);
+    display: inline-block;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.6rem;
+    background: var(--bg3);
+    color: var(--muted);
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  .project-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: gap 0.2s;
+  }
+
+  .project-link:hover { gap: 0.8rem; }
+
+  /* SKILLS */
+  .skills-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(36,36,36,0.5);
+  }
+
+  .skill-name {
+    font-size: 0.88rem;
+    color: var(--text);
+  }
+
+  .skill-bar {
+    width: 80px;
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .skill-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 1px;
+    animation: grow 1s ease forwards;
+    transform-origin: left;
+  }
+
+  @keyframes grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* CONTACT */
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-text {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text);
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    font-size: 0.88rem;
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .contact-link-icon {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    min-width: 60px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .footer-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 6rem 1.5rem 8rem; }
+    .hero-stats { position: static; flex-direction: row; margin-top: 3rem; }
+    section { padding: 4rem 1.5rem; }
+    .skills-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">AEH</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <p class="hero-tag">Economics & Data Science · Northeastern University</p>
+    <h1 class="hero-name">Anthony<br/><em>El-Hage</em></h1>
+    <p class="hero-title">Data Scientist & Economist</p>
+    <p class="hero-bio">
+      Economics student at Northeastern University specializing in causal inference, 
+      machine learning, and applied econometrics. I build models that turn messy 
+      real-world data into decisions stakeholders can actually act on.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects →</a>
+      <a href="mailto:elhage.an@northeastern.edu" class="btn btn-ghost">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">5+</span>
+      <span class="stat-label">ML Projects</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Causal Methods</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">2026</span>
+      <span class="stat-label">Graduating</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label fade-in">Selected Work</p>
+  <h2 class="section-title fade-in">Projects</h2>
+
+  <div class="projects-grid">
+
+    <!-- Project 1 -->
+    <div class="project-card fade-in">
+      <p class="project-num">01 / Causal Inference</p>
+      <h3 class="project-title">Minimum Wage & Employment: Card & Krueger Replication</h3>
+      <p class="project-desc">
+        Replicated Card & Krueger's landmark 1994 study using Difference-in-Differences on 
+        410 New Jersey and Pennsylvania fast food restaurants. Estimated the causal effect 
+        of NJ's minimum wage hike on FTE employment with HC1 robust standard errors.
+      </p>
+      <span class="project-result">DiD estimate: +2.845 FTE (p &lt; 0.05)</span>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">statsmodels</span>
+        <span class="tag">DiD</span>
+        <span class="tag">OLS</span>
+        <span class="tag">pandas</span>
+      </div>
+      <a href="#" class="project-link">View on GitHub →</a>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card fade-in">
+      <p class="project-num">02 / ML Prediction</p>
+      <h3 class="project-title">WTI Crude Oil Price Forecasting</h3>
+      <p class="project-desc">
+        Built a macro-driven oil price prediction model using FRED data — USD index, 
+        CPI, inventories, rig counts. Compared Ridge regression (baseline) against 
+        Random Forest. Deployed an interactive Streamlit dashboard for energy traders.
+      </p>
+      <span class="project-result">RF outperformed Ridge by 24 R² points</span>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">scikit-learn</span>
+        <span class="tag">Random Forest</span>
+        <span class="tag">FRED</span>
+        <span class="tag">Streamlit</span>
+      </div>
+      <a href="#" class="project-link">View on GitHub →</a>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card fade-in">
+      <p class="project-num">03 / NLP</p>
+      <h3 class="project-title">Sentiment Analysis of FOMC Meeting Minutes</h3>
+      <p class="project-desc">
+        Built a TF-IDF pipeline to classify Federal Reserve meeting minutes as hawkish 
+        or dovish. Logistic regression baseline compared against gradient boosting. 
+        Identified key monetary policy language patterns driving model decisions.
+      </p>
+      <span class="project-result">87% classification accuracy</span>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">NLTK</span>
+        <span class="tag">TF-IDF</span>
+        <span class="tag">Logistic Reg</span>
+        <span class="tag">Plotly</span>
+      </div>
+      <a href="#" class="project-link">View on GitHub →</a>
+    </div>
+
+    <!-- Project 4 -->
+    <div class="project-card fade-in">
+      <p class="project-num">04 / Time Series</p>
+      <h3 class="project-title">CPI Inflation Forecasting with Prophet & ARIMA</h3>
+      <p class="project-desc">
+        Forecasted U.S. CPI inflation using Facebook Prophet and ARIMA. Prophet captured 
+        the COVID-era structural break that ARIMA missed entirely. Evaluated models 
+        against a naïve benchmark using MASE.
+      </p>
+      <span class="project-result">MASE = 0.72 — beats naïve benchmark</span>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Prophet</span>
+        <span class="tag">ARIMA</span>
+        <span class="tag">statsmodels</span>
+        <span class="tag">pandas</span>
+      </div>
+      <a href="#" class="project-link">View on GitHub →</a>
+    </div>
+
+    <!-- Project 5 -->
+    <div class="project-card fade-in">
+      <p class="project-num">05 / Tree-Based Models</p>
+      <h3 class="project-title">Random Forest vs OLS: California Housing</h3>
+      <p class="project-desc">
+        Benchmarked Decision Tree, Ridge regression, and Random Forest on 20,640 
+        California housing observations. Extracted both MDI and permutation feature 
+        importances, with explicit caveats on predictive vs. causal interpretation.
+      </p>
+      <span class="project-result">RF R² = 0.83 vs Ridge R² = 0.59</span>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">scikit-learn</span>
+        <span class="tag">Random Forest</span>
+        <span class="tag">matplotlib</span>
+      </div>
+      <a href="#" class="project-link">View on GitHub →</a>
+    </div>
+
+    <!-- Project 6 -->
+    <div class="project-card fade-in">
+      <p class="project-num">06 / Causal Inference</p>
+      <h3 class="project-title">Causal Inference Toolkit: IV & Regression Discontinuity</h3>
+      <p class="project-desc">
+        Applied Instrumental Variables (2SLS) and Regression Discontinuity designs to 
+        empirical economic questions. Covered relevance, exclusion restriction, bandwidth 
+        selection, manipulation testing, and LATE interpretation.
+      </p>
+      <span class="project-result">Sharp RD · Fuzzy RD · 2SLS</span>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">statsmodels</span>
+        <span class="tag">IV</span>
+        <span class="tag">RD Design</span>
+      </div>
+      <a href="#" class="project-link">View on GitHub →</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label fade-in">Capabilities</p>
+  <h2 class="section-title fade-in">Skills & Tools</h2>
+
+  <div class="skills-layout">
+    <div class="fade-in">
+      <p class="skill-group-title">Statistics & Econometrics</p>
+      <div class="skill-item">
+        <span class="skill-name">Causal Inference (DiD, IV, RD)</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">OLS & Robust SE</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Time Series (ARIMA, Prophet)</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Hypothesis Testing</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+      </div>
+
+      <p class="skill-group-title" style="margin-top:2.5rem">Machine Learning</p>
+      <div class="skill-item">
+        <span class="skill-name">scikit-learn</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Random Forest / Gradient Boosting</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">NLP / TF-IDF</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Cross-Validation & Model Selection</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <p class="skill-group-title">Programming & Data</p>
+      <div class="skill-item">
+        <span class="skill-name">Python</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">pandas / NumPy</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">SQL</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Git / GitHub</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+
+      <p class="skill-group-title" style="margin-top:2.5rem">Visualization & Deployment</p>
+      <div class="skill-item">
+        <span class="skill-name">matplotlib / seaborn</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Plotly</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Streamlit</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Google Colab / Jupyter</span>
+        <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label fade-in">Get In Touch</p>
+  <h2 class="section-title fade-in">Contact</h2>
+
+  <div class="contact-inner">
+    <div class="fade-in">
+      <p class="contact-text">
+        I'm an economics and data science student at Northeastern University. 
+        Open to research collaborations, internship opportunities, and conversations 
+        about causal inference, ML, or anything at the intersection of economics and data.
+      </p>
+      <a href="mailto:elhage.an@northeastern.edu" class="btn btn-primary">Say Hello →</a>
+    </div>
+
+    <div class="contact-links fade-in">
+      <a href="mailto:elhage.an@northeastern.edu" class="contact-link">
+        <span class="contact-link-icon">Email</span>
+        elhage.an@northeastern.edu
+      </a>
+      <a href="https://www.linkedin.com/in/anthony-el-hage/" target="_blank" class="contact-link">
+        <span class="contact-link-icon">LinkedIn</span>
+        anthony-el-hage
+      </a>
+      <a href="https://github.com/" target="_blank" class="contact-link">
+        <span class="contact-link-icon">GitHub</span>
+        View repositories →
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-text">© 2026 Anthony El-Hage</span>
+  <span class="footer-text">Economics & Data Science · Northeastern University</span>
+</footer>
+
+<script>
+  // Scroll-triggered fade-ins
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
